@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@layer utilities {
+  input:-webkit-autofill {
+    @apply bg-white text-black shadow-inner;
+    transition: background-color 9999s ease-in-out 0s; /* Prevents flashing */
+  }
+
+  input:-webkit-autofill::first-line {
+    @apply text-black;
+  }
+  
+}
+
+.login__header__logo {
+    @apply w-52 h-auto mx-6 my-4
+}
+
+.login__main {
+    @apply flex-1 flex justify-center items-center
+}
+
+.login_footer {
+    @apply text-center py-4 text-slate-700 text-[15px] bg-secondary
+}
+
+.floating_label {
+    @apply absolute text-sm text-gray-500 font-semibold tracking-widest duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-4 peer-focus:px-2 peer-focus:text-primary peer-focus:dark:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1
+}
+
+
+@theme {
+  --color-primary: oklch(0.6115 0.1002 194.85);
+  --color-secondary: oklch(0.9756 0.0055 211.04);
+}
+
+
