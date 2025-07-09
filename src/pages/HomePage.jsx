@@ -3,6 +3,9 @@ import DasboardBar from '../components/DasboardBar'
 import useListStore from '../store/listStore';
 import { useEffect } from 'react';
 import { getPayor } from '../services/services';
+import Table from '../components/Table';
+import Pagination from '../components/Pagination';
+
 
 const HomePage = () => {
 
@@ -42,6 +45,15 @@ const HomePage = () => {
       {/* Action Bar */}
 
       <DasboardBar />
+
+      {/* Table */}
+
+     <main className='flex-1'>
+      <Table />
+      </main> 
+
+      <Pagination />
+
     </div>
   )
 }

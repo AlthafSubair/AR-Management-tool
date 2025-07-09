@@ -1,7 +1,7 @@
 import { ChevronDown } from 'lucide-react';
 import React from 'react';
 
-const SelectInput = ({ datas, label, valueKey, labelKey, select }) => {
+const SelectInput = ({ datas, label, valueKey, labelKey, select, value, onChange }) => {
   return (
     <div className="relative w-28">
       <label
@@ -12,10 +12,11 @@ const SelectInput = ({ datas, label, valueKey, labelKey, select }) => {
       </label>
 
       <select
-        defaultValue=""
+        value={value ?? ""}
+        onChange={onChange}
         className="peer appearance-none bg-transparent border-b border-teal-500 w-full text-gray-700 py-2 pr-8 leading-tight focus:outline-none"
       >
-        <option value="" disabled>{select}</option>
+        <option value="" >{select}</option>
 
         {datas.map((data) => (
           <option key={data[valueKey]} value={data[valueKey]}>
