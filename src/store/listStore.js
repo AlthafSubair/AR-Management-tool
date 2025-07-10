@@ -22,6 +22,9 @@ const useListStore = create(
         providerDtoList: []
       }),
     }),
+
+    // allocating storage
+
     {
       name: "list-storage",
       storage: createJSONStorage(() => localStorage),

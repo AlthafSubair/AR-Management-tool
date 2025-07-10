@@ -2,7 +2,7 @@ import SelectInput from './SelectInput';
 import useCacheStore from '../store/cacheStore';
 import useListStore from '../store/listStore';
 import useFilterFormStore from '../store/filterFormStore';
-import { getList } from '../services/services';
+import { exportTable, getList } from '../services/services';
 import useTableStore from '../store/tableStore';
 
 
@@ -22,21 +22,65 @@ const Filter = () => {
     const { clinics, status } = useCacheStore();
     const { providerDtoList, payorDtoList } = useListStore();
 
-     const { form, setField } = useFilterFormStore();
+    const { form, setField } = useFilterFormStore();
 
-       const {setResults, results} = useTableStore();
+    const { setResults, results } = useTableStore();
 
-     const onSubmit = async(e) => {
-         e.preventDefault();
-            try {
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        try {
 
-                const res = await getList(form);
-                setResults(res.data)
-                
-            } catch (error) {
-                console.log("error on field: " +error)
-            }
-     }
+            const res = await getList(form);
+            setResults(res.data)
+
+        } catch (error) {
+            console.log("error on field: " + error)
+        }
+    }
+
+    const onExport = async (e) => {
+        e.preventDefault();
+        try {
+
+            const rawParams = {
+                startDate: form?.startDate,
+                endDate: form?.endDate,
+                clinicId: form?.clinicId,
+                providerId: form?.providerId,
+            };
+
+            const params = Object.fromEntries(
+                Object.entries(rawParams).filter(([_, v]) => v !== null && v !== undefined && v !== '')
+            );
+            
+            console.log('Export request params:', params);
+
+            const res = await exportTable(params);
+
+            console.log(res);
+
+             if (res.type === 'application/json') {
+      const text = await res.text();
+      const errorJson = JSON.parse(text);
+      console.error('Server error:', errorJson);
+      alert(`Export failed: ${errorJson?.error?.message?.['117'] || 'Unknown error'}`);
+      return;
+    }
+
+
+ // If res is a Blob, handle download here
+        const url = window.URL.createObjectURL(new Blob([res]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'ar_export.csv'); // Adjust filename/type as needed
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        } catch (error) {
+            console.log("error on exporting", error)
+        }
+    }
 
 
 
@@ -55,7 +99,7 @@ const Filter = () => {
 
                 {/* Status Selection */}
 
-                <SelectInput datas={status} label={"Status"} valueKey={"value"} labelKey={"description"} select={"All Status"} value={form.statusId} onChange={(e) => setField("statusId", e.target.value)}/>
+                <SelectInput datas={status} label={"Status"} valueKey={"value"} labelKey={"description"} select={"All Status"} value={form.statusId} onChange={(e) => setField("statusId", e.target.value)} />
 
                 {/* Date of DOS Start */}
 
@@ -71,7 +115,7 @@ const Filter = () => {
                         type="date"
                         value={form.startDate}
                         onChange={(e) => setField("startDate", e.target.value)}
-                        className="peer appearance-none bg-transparent border-b border-teal-500 w-full text-gray-700 py-2 pr-8 leading-tight focus:outline-none uppercase"
+                        className="peer appearance-none bg-transparent border-b border-teal-500 w-full text-gray-700 py-2 leading-tight focus:outline-none uppercase"
                     />
                 </div>
 
@@ -89,17 +133,17 @@ const Filter = () => {
                         type="date"
                         value={form.endDate}
                         onChange={(e) => setField("endDate", e.target.value)}
-                        className="peer appearance-none bg-transparent border-b border-teal-500 w-full text-gray-700 py-2 pr-8 leading-tight focus:outline-none uppercase"
+                        className="peer appearance-none bg-transparent border-b border-teal-500 w-full text-gray-700 py-2 leading-tight focus:outline-none uppercase"
                     />
                 </div>
 
                 {/* Payour Selection */}
 
-                <SelectInput datas={payorDtoList} label={"Payour"} valueKey={"id"} labelKey={"payerName"} select={"All Payour"} value={form.payorId} onChange={(e) => setField("payorId", e.target.value)}/>
+                <SelectInput datas={payorDtoList} label={"Payour"} valueKey={"id"} labelKey={"payerName"} select={"All Payour"} value={form.payorId} onChange={(e) => setField("payorId", e.target.value)} />
 
                 {/* Owner Selection */}
 
-                <SelectInput datas={owner} label={"Owner"} valueKey={"value"} labelKey={"text"} select={"All Onwer"} value={form.ownerId} onChange={(e) => setField("ownerId", e.target.value)}/>
+                <SelectInput datas={owner} label={"Owner"} valueKey={"value"} labelKey={"text"} select={"All Onwer"} value={form.ownerId} onChange={(e) => setField("ownerId", e.target.value)} />
 
                 {/* Due Date */}
 
@@ -113,23 +157,24 @@ const Filter = () => {
 
                     <input
                         type="date"
-                        className="peer appearance-none bg-transparent border-b border-teal-500 w-full text-gray-700 py-2 pr-8 leading-tight focus:outline-none uppercase"
+                        className="peer appearance-none bg-transparent border-b border-teal-500 w-full text-gray-700 py-2 leading-tight focus:outline-none uppercase"
                     />
                 </div>
 
                 {/* Filter button */}
 
                 <button
-                type='submit'
-                className='px-6 py-2 bg-primary text-white rounded-md'>
+                    type='submit'
+                    className='px-6 py-2 bg-primary text-white rounded-md'>
                     Filter
                 </button>
 
                 {/* Export Button */}
 
-                <button 
-                type='button'
-                className='px-6 py-2 bg-primary text-white rounded-md'>
+                <button
+                    type='button'
+                    onClick={onExport}
+                    className='px-6 py-2 bg-primary text-white rounded-md'>
                     Export
                 </button>
 

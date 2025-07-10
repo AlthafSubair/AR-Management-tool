@@ -1,38 +1,52 @@
 import HomeHeader from '../components/HomeHeader'
 import DasboardBar from '../components/DasboardBar'
 import useListStore from '../store/listStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getPayor } from '../services/services';
 import Table from '../components/Table';
 import Pagination from '../components/Pagination';
+import NoteModal from '../components/NoteModal';
+import EobModal from '../components/EobModal';
 
 
 const HomePage = () => {
 
-  const {setList} = useListStore();
+  // store action
+
+  const { setList } = useListStore();
+
+  const [open, setOpen] = useState(
+    {
+      patientId: "",
+      claimId: ""
+    }
+  )
+
+  const [eob, setEob] = useState("");
+
+  // fetching lists of appointmentTypeDtoList, locationDtoList, payorDtoList, providerDtoList
 
   useEffect(() => {
-  const fetchPayor = async () => {
-    try {
-      const res = await getPayor();
-      
-      const {appointmentTypeDtoList, locationDtoList, payorDtoList, providerDtoList} = res.data?.data;
+    const fetchPayor = async () => {
+      try {
+        const res = await getPayor(); // calling api service
 
-     setList({
-  appointmentTypeDtoList,
-  locationDtoList,
-  payorDtoList,
-  providerDtoList,
-});
+        const { appointmentTypeDtoList, locationDtoList, payorDtoList, providerDtoList } = res.data?.data;
 
+        setList({
+          appointmentTypeDtoList,
+          locationDtoList,
+          payorDtoList,
+          providerDtoList,
+        });
 
-    } catch (err) {
-      console.error('Failed to fetch payor:', err);
-    }
-  };
+      } catch (err) {
+        console.error('Failed to fetch payor:', err);
+      }
+    };
 
-  fetchPayor();
-}, []);
+    fetchPayor();
+  }, []);
 
 
   return (
@@ -40,7 +54,7 @@ const HomePage = () => {
 
       {/* Header */}
 
-      <HomeHeader /> 
+      <HomeHeader />
 
       {/* Action Bar */}
 
@@ -48,9 +62,24 @@ const HomePage = () => {
 
       {/* Table */}
 
-     <main className='flex-1'>
-      <Table />
-      </main> 
+      <main className='flex-1 mb-8'>
+        <Table setOpen={setOpen} setEob={setEob}/>
+      </main>
+
+      {open.patientId && (
+  <NoteModal setOpen={setOpen} open={open} />
+)}
+
+{
+  eob && (
+    <EobModal setEob={setEob} eob={eob}/>
+  )
+}
+
+
+
+
+      {/* pagination */}
 
       <Pagination />
 

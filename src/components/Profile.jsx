@@ -22,38 +22,38 @@ const Profile = () => {
         .map(name => name[0].toUpperCase())
         .join('');
 
-        // logout fn
+    // logout fn
 
     const logOut = () => {
         setLogout();
         navigate('/');
-    }    
+    }
 
-   
+
     return (
-        <div onMouseLeave={()=>setIsProfile(false)}>
-{/* Profile */}
+        <div onMouseLeave={() => setIsProfile(false)}>
+            {/* Profile */}
 
-        <div onClick={() => setIsProfile((prev) => !prev)} 
-        className='bg-secondary w-14 h-14 rounded-full mx-12 flex items-center justify-center cursor-pointer'>
-            <h1 className='text-primary font-semibold text-2xl'>{Profile}</h1>
-        </div>
+            <div onClick={() => setIsProfile((prev) => !prev)}
+                className='bg-secondary w-14 h-14 rounded-full mx-12 flex items-center justify-center cursor-pointer'>
+                <h1 className='text-primary font-semibold text-2xl'>{Profile}</h1>
+            </div>
 
-        {/* Popup menu */}
+            {/* Popup menu */}
 
-{
-    isProfile && <div 
-    className='absolute right-10 top-[69px] shadow-lg px-4 py-4 border border-slate-200 rounded-md z-10 bg-white flex flex-col gap-2 items-start'>
-       
-        {/* fullname */}
+            {
+                isProfile && <div
+                    className='absolute right-10 top-[69px] shadow-lg px-4 py-4 border border-slate-200 rounded-md z-10 bg-white flex flex-col gap-2 items-start'>
 
-        <h1 className='text-lg font-semibold'>{fullName}</h1>
+                    {/* fullname */}
 
-        {/* Logout button */}
+                    <h1 className='text-lg font-semibold'>{fullName}</h1>
 
-        <button onClick={logOut} className='flex flex-row justify-center items-center gap-4 font-medium'><LogOutIcon size={20}/> Logout</button>
-    </div>
-}
+                    {/* Logout button */}
+
+                    <button onClick={logOut} className='flex flex-row justify-center items-center gap-4 font-medium'><LogOutIcon size={20} /> Logout</button>
+                </div>
+            }
 
         </div>
     )

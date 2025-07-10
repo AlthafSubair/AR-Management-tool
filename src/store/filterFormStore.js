@@ -5,6 +5,7 @@ const getToday = () => new Date().toISOString().split('T')[0];
 
 
 const useFilterFormStore = create((set) => ({
+  // intialiazing store variables
     form: {
         clinicId: null,
         providerId: null,
@@ -18,10 +19,12 @@ const useFilterFormStore = create((set) => ({
         start: 0,
         limit: 25
     },
+      // store actions
      setField: (field, value) =>
     set((state) => ({
       form: { ...state.form, [field]: value },
     })),
+    
 }))
 
 export default useFilterFormStore

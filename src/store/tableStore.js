@@ -5,10 +5,15 @@ import useFilterFormStore from "./filterFormStore";
 const useTableStore = create(
   persist(
     (set) => ({
+
+      // intialiazing store variables
+
       results: [],
       totalRecords: 0,
       start: 0,
       limit: useFilterFormStore.getState().limit || 25,
+
+        // store actions
 
       setResults: (payload) => {
         set({
@@ -22,7 +27,11 @@ const useTableStore = create(
       clearResults: () => {
         set({ results: [], totalRecords: 0, start: 0 });
       },
+
     }),
+
+    // allocating storage
+    
     {
       name: 'table-storage',
       storage: createJSONStorage(() => localStorage), // ✅ COMMA here, not semicolon

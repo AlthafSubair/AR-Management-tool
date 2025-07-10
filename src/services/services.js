@@ -55,3 +55,78 @@ export const getList = async (params) => {
     throw error; 
   }
 };
+
+// export and download table data
+
+export const exportTable = async (params) => {
+   try {
+    const response = await axiosInternalInstance.get('/ArManagement/export', {
+      params,
+      responseType: 'blob'
+    });
+    return response.data;
+  } catch (error) {
+    console.error("export table error:", error); 
+    throw error; 
+  }
+}
+
+
+// multi select owner update
+
+export const multiUpdateOwner = async (formData) => {
+  try {
+
+    const response = await axiosInternalInstance.put('/ArManagement/list', formData);
+    return response.data;
+    
+  } catch (error) {
+    console.error("multiple owner updation error:", error); 
+    throw error; 
+  }
+}
+
+// geeting notes
+
+export const getNotes = async ({ patientId, claimId }) => {
+  try {
+    let url = 'common/claim/note/list';
+    if (claimId) {
+      url += `/${claimId}`;
+    }
+
+    const response = await axiosInternalInstance.get(url, {
+      params: { patientId }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("error in getting notes:", error); 
+    throw error; 
+  }
+}
+
+
+// getting eob details
+
+export const getEob = async (claimId) => {
+  try{
+    const response = await axiosInternalInstance.get(`/common/payment/eob/list/${claimId}`)
+    return response.data
+  }catch(error){
+     console.error("error in getting eob:", error); 
+    throw error;
+  }
+}
+
+// download eob
+
+export const downloadEob = async({claimId, clinicId, fileId, fileName}) => {
+  try {
+    const response = await axiosInternalInstance.get(`/coderPortal/download${claimId}/${clinicId}/${fileId}/${fileName}`)
+    return response.data
+  } catch (error) {
+    console.error("error in downloading eob:", error); 
+    throw error;
+  }
+}
