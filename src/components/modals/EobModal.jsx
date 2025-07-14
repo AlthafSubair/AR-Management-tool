@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getEob } from '../services/services';
+import { downloadEob, getEob } from '../../services/services';
 
 const EobModal = ({ setEob, eob }) => {
   const [data, setData] = useState([]);
@@ -20,6 +20,31 @@ const EobModal = ({ setEob, eob }) => {
   }, [eob]);
 
   console.log(data)
+
+
+  const onView = async (claimId, clinicId, fileId, fileName) => {
+  try {
+    console.log(claimId, clinicId, fileId, fileName);
+
+    const res = await downloadEob({ claimId, clinicId, fileId, fileName });
+  
+
+    // Check if response has an error code or error message
+    if (res.responseCode !== 200 || (res.error && res.error.message)) {
+      alert("Something went wrong: " + (res.error.message[res.responseCode] || "Unknown error"));
+      return;
+    }
+
+    // Continue if no error (handle your success logic here)
+
+      console.log(res);
+
+  } catch (error) {
+    console.error("Failed to viewing eob:", error);
+    alert("Something went wrong while fetching the EOB.");
+  }
+};
+
 
   // Guard for empty data
  const columns = ["Posted", "Payer", "Check Date", "Amount", "Check #", "Type", "Actions"];
@@ -68,7 +93,7 @@ return (
                 <td className="border border-gray-300 px-4 py-2 text-sm text-gray-900">{item.payerType}</td>
                 <td className="border border-gray-300 px-4 py-2 text-sm text-gray-900">
                   {/* Example action buttons */}
-                  <button className="text-primary hover:underline">View</button>
+                  <button onClick={() => {onView(item?.claimId, item?.clinicId, item?.fileId, item?.fileName)}} className="text-primary hover:underline">View</button>
                 </td>
               </tr>
             ))}

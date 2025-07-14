@@ -1,6 +1,6 @@
 import React from 'react'
 import Filter from './Filter'
-import UpdateOwner from './UpdateOwner'
+import UpdateOwner from '../home/UpdateOwner'
 
 const DasboardBar = () => {
   return (

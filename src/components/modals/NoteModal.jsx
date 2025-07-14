@@ -1,6 +1,6 @@
 import { X } from "lucide-react"
 import { useEffect, useState } from "react"
-import { getNotes } from "../services/services"
+import { getNotes } from "../../services/services"
 
 const NoteModal = ({ setOpen, open }) => {
 

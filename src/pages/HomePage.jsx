@@ -1,12 +1,12 @@
-import HomeHeader from '../components/HomeHeader'
-import DasboardBar from '../components/DasboardBar'
+import HomeHeader from '../components/home/HomeHeader'
+import DasboardBar from '../components/home/DasboardBar'
 import useListStore from '../store/listStore';
 import { useEffect, useState } from 'react';
 import { getPayor } from '../services/services';
-import Table from '../components/Table';
-import Pagination from '../components/Pagination';
-import NoteModal from '../components/NoteModal';
-import EobModal from '../components/EobModal';
+import Table from '../components/home/Table';
+import Pagination from '../components/home/Pagination';
+import NoteModal from '../components/modals/NoteModal';
+import EobModal from '../components/modals/EobModal';
 
 
 const HomePage = () => {

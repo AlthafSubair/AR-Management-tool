@@ -35,7 +35,7 @@ const Profile = () => {
             {/* Profile */}
 
             <div onClick={() => setIsProfile((prev) => !prev)}
-                className='bg-secondary w-14 h-14 rounded-full mx-12 flex items-center justify-center cursor-pointer'>
+                className='bg-secondary w-10 h-10 rounded-full flex items-center justify-center cursor-pointer'>
                 <h1 className='text-primary font-semibold text-2xl'>{Profile}</h1>
             </div>
 
@@ -43,7 +43,7 @@ const Profile = () => {
 
             {
                 isProfile && <div
-                    className='absolute right-10 top-[69px] shadow-lg px-4 py-4 border border-slate-200 rounded-md z-10 bg-white flex flex-col gap-2 items-start'>
+                    className='absolute right-8 top-14 shadow-lg px-4 py-4 border border-slate-200 rounded-md z-10 bg-white flex flex-col gap-2 items-start'>
 
                     {/* fullname */}
 

@@ -1,8 +1,8 @@
 import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useEffect } from 'react'
-import useFilterFormStore from '../store/filterFormStore';
-import { getList } from '../services/services';
-import useTableStore from '../store/tableStore';
+import useFilterFormStore from '../../store/filterFormStore';
+import { getList } from '../../services/services';
+import useTableStore from '../../store/tableStore';
 
 
 const Pagination = () => {

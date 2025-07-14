@@ -4,11 +4,12 @@ import useFilterFormStore from "./filterFormStore";
 
 const useTableStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
 
       // intialiazing store variables
 
       results: [],
+      result: {},
       totalRecords: 0,
       start: 0,
       limit: useFilterFormStore.getState().limit || 25,
@@ -23,6 +24,14 @@ const useTableStore = create(
           limit: useFilterFormStore.getState().limit || 25,
         });
       },
+
+     setResult: (claimId) => {
+        const { results } = get();
+        set({
+          result: results.find((res) => res.claimId === claimId) || {},
+        });
+      },
+
 
       clearResults: () => {
         set({ results: [], totalRecords: 0, start: 0 });

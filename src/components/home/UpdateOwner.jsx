@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import SelectInput from './SelectInput'
-import useCheckBoxStore from '../store/checkBoxStore';
-import { multiUpdateOwner } from '../services/services';
-import useTableStore from '../store/tableStore';
+import  { useState } from 'react'
+import useTableStore from '../../store/tableStore';
+import SelectInput from '../SelectInput';
+import useCheckBoxStore from '../../store/checkBoxStore';
+import { multiUpdateOwner } from '../../services/services';
 
 // owners list
 

@@ -24,4 +24,17 @@ const axiosInternalInstance = axios.create({
     return config;
 })
 
+axiosInternalInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Clear auth and redirect to login
+      useAuthStore.getState().setLogout(); // if you have a logout method
+      window.location.href = '/';    // or use react-router `navigate('/login')`
+    }
+    return Promise.reject(error);
+  }
+);
+
+
 export default axiosInternalInstance

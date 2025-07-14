@@ -33,7 +33,7 @@ export const callCahce = async () => {
 
 export const getPayor = async () => {
   try{
-    const response = await axiosInternalInstance.get('common/list/83622');
+    const response = await axiosInternalInstance.get('/common/list/83622');
     // console.log(response)
     return response
   } catch (err) {
@@ -90,7 +90,7 @@ export const multiUpdateOwner = async (formData) => {
 
 export const getNotes = async ({ patientId, claimId }) => {
   try {
-    let url = 'common/claim/note/list';
+    let url = '/common/claim/note/list';
     if (claimId) {
       url += `/${claimId}`;
     }
@@ -121,12 +121,80 @@ export const getEob = async (claimId) => {
 
 // download eob
 
-export const downloadEob = async({claimId, clinicId, fileId, fileName}) => {
+export const downloadEob = async ({ claimId, clinicId, fileId, fileName }) => {
   try {
-    const response = await axiosInternalInstance.get(`/coderPortal/download${claimId}/${clinicId}/${fileId}/${fileName}`)
-    return response.data
+    const response = await axiosInternalInstance.get('/coderPortal/download', {
+      params: {
+        claimId,
+        clinicId,
+        fileId,
+        fileName,
+      },
+    });
+    return response.data;
   } catch (error) {
-    console.error("error in downloading eob:", error); 
+    console.error("error in downloading eob:", error);
+    throw error;
+  }
+};
+
+// viewing primary preview
+
+export const viewClaim = async({patientId, claimId, rankType}) => {
+   try {
+    const response = await axiosInternalInstance.get('/ArManagement/claim/preview', {
+    params:{
+      patientId, 
+      claimId,
+      rankType: rankType
+    },
+     responseType: 'blob',
+    });
+    
+    
+    return response.data;
+  } catch (error) {
+    console.error("error in viewing primary preview:", error);
     throw error;
   }
 }
+
+export const getSummary = async(clainmId) => {
+  try {
+
+    const response = await axiosInternalInstance.get(`common/claim/summary/${clainmId}`)
+
+    return response.data.data;
+    
+  } catch (error) {
+    console.error("error in geting claim summary:", error);
+    throw error;
+  }
+}
+
+export const getLocations = async(clinicId) => {
+  try {
+
+    const response = await axiosInternalInstance.get(`/common/list/${clinicId}`)
+
+    return response.data.data;
+    
+  } catch (error) {
+    console.error("error in getting locations")
+    throw error
+  }
+}
+
+export const updateClaim = async (claimId, payload) => {
+  try {
+    const response = await axiosInternalInstance.put(
+      `/common/claim/update/${claimId}`,
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating claim:", error);
+    throw error;
+  }
+};
+

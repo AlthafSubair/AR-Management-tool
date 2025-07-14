@@ -19,7 +19,7 @@ const SelectInput = ({ datas, label, valueKey, labelKey, select, value, onChange
         <option value="">{select}</option>
 
         {datas.map((data) => (
-          <option key={data[valueKey]} value={data[valueKey]}>
+          <option key={data[valueKey]} value={data[valueKey]} className=''>
             {data[labelKey]}
           </option>
         ))}
