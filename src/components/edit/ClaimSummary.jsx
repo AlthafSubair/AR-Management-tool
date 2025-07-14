@@ -82,7 +82,7 @@ const ClaimSummary = () => {
         }
     };
 
-    console.log(details)
+
 
     return (
         <div className="bg-white shadow-xl rounded-md w-full p-4 flex flex-col">

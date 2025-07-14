@@ -198,3 +198,18 @@ export const updateClaim = async (claimId, payload) => {
   }
 };
 
+
+export const addLog = async (payload) => {
+  try {
+
+    const response = await axiosInternalInstance.post('/log/', payload);
+
+    return response.data.data;
+
+    
+    
+  } catch (error) {
+    console.error("Error adding log:", error);
+    throw error;
+  }
+}
